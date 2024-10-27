@@ -4,7 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
 public class BasePage {
-public WebDriver driver;
+public static WebDriver driver;
 	
 	
 	public BasePage(WebDriver driver)
@@ -13,5 +13,7 @@ public WebDriver driver;
 		PageFactory.initElements(driver, this);
 		
 	}
+	
+	
 
 }

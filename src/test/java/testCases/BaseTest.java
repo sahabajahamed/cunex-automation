@@ -1,10 +1,14 @@
 package testCases;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.RandomStringUtils;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -15,7 +19,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 
 public  class BaseTest {
 	
-	public WebDriver driver;
+	public static WebDriver driver;
 	
 	
 	// Driver is open
@@ -79,6 +83,24 @@ public  class BaseTest {
 		String generateString=RandomStringUtils.randomAlphabetic(4);
 		return (generateNumber+"@"+generateString );
 	}
+	public  static void  zommout()
+	{
+			JavascriptExecutor js = (JavascriptExecutor) driver;
+			 js.executeScript("document.body.style.zoom = '0.7';");
+	}
+	public static void normalZoom() throws InterruptedException, AWTException
+	{
+		Robot robot = new Robot();
+		Thread.sleep(5000);
+		robot.keyPress(KeyEvent.VK_CONTROL);
+        robot.keyPress(KeyEvent.VK_SUBTRACT);
+        robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyPress(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+        robot.keyRelease(KeyEvent.VK_CONTROL); 
+	}
+
 	
 
 }

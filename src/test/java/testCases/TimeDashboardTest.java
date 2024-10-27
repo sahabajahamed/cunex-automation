@@ -1,5 +1,7 @@
 package testCases;
 
+import java.awt.AWTException;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,7 +12,7 @@ import pageObjects.TimeDashboardPage;
 
 public class TimeDashboardTest extends BaseTest {
 	@Test(priority = 1)
-	public void VerifyTimedashboard()
+	public void VerifyTimedashboard() throws InterruptedException, AWTException
 	{
 		LoginPage lp= new LoginPage(driver);
 		lp.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
@@ -26,9 +28,22 @@ public class TimeDashboardTest extends BaseTest {
 	}
 	
 	@Test(priority = 2)
-	public void performApproveButton()
+	public void userAbletoperformApproveButton() throws InterruptedException, AWTException
 	{
-		// code added
+		LoginPage lp= new LoginPage(driver);
+		BaseTest.normalZoom();
+		BaseTest.zommout();
+		lp.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
+		DashboardPage dp= new DashboardPage(driver);
+		
+		dp.clickHumenResource();
+		BaseTest.zommout();
+		TimeDashboardPage tp=new TimeDashboardPage(driver);
+		
+		 tp.clickTimedashboard();
+		 tp.clickApproveButton();
+		
+		
 	}
 	
 	

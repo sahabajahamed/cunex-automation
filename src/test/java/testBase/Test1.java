@@ -7,14 +7,18 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -104,7 +108,7 @@ public class Test1 {
 		Thread.sleep(5000);
 		select.selectByVisibleText("Office");
 		Thread.sleep(5000);
-		 js.executeScript("document.body.style.zoom = '0.5';");
+		 js.executeScript("document.body.style.zoom = '0.8';");
 
 		 List<WebElement> ls= driver.findElements(By.xpath("//button[text()='Approve']"));
 
@@ -122,17 +126,37 @@ public class Test1 {
 					for (WebElement webElement : driveLink) {
 						webElement.click();
 						Thread.sleep(5000);
-						driver.findElement(By.xpath("//div[@class='d-flex justify-content-end align-items-center mb-3']//button[@id='expand_btn']")).click();
-						List<WebElement> markasNoCritical= driver .findElements(By.xpath("//button[@title='Mark as no critical']"));
+						String mainWindowHandle = driver.getWindowHandle();
+						Set<String> allWindowHandles = driver.getWindowHandles();
+						for (String windowHandle : allWindowHandles) {
+							if (!windowHandle.equals(mainWindowHandle)) 
+							{
+								driver.switchTo().window(windowHandle);
+								driver.findElement(By.xpath("//div[@class='d-flex justify-content-end align-items-center mb-3']//button[@id='expand_btn']")).click();
+								List<WebElement> markasNoCritical= driver .findElements(By.xpath("//button[@title='Mark as no critical']"));
 							for (WebElement markNocritical : markasNoCritical) {
-								markNocritical.click();
-								select.selectByVisibleText("Incorrect Schedule");
+								Thread.sleep(5000);
+								try {
+          	  					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+           					 WebElement refreshedButton = wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(markNocritical)));
+           					 refreshedButton.click();
+
+       				 } 	catch (StaleElementReferenceException e) {
+           						 System.out.println("Encountered a stale element, retrying...");
+        }
+								// markNocritical.click();
+								Thread.sleep(5000);
+								WebElement select2=driver.findElement(By.xpath("//select[@id='critical_reason_id']"));
+								Select sel = new Select(select2);
+								sel.selectByVisibleText("Incorrect Schedule");
 								driver.findElement(By.id("no_critical_note")).sendKeys("exx");
 								driver.findElement(By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']")).click();
 								
 							}
 
 						driver.navigate().back();
+							}
+						}
 					
 						
 					}

@@ -53,7 +53,8 @@ public class LoginPage {
 
     
     // Method to perform login
-    public void loginPerform(String username, String password) {
+    public void loginPerform(String username, String password) 
+     { 
     	usernameField.clear();
         usernameField.sendKeys(username);
         passwordField.clear();
