@@ -13,16 +13,16 @@ import pageObjects.LoginPage;
 import pageObjects.ReportsPage;
 
 public class ReportsTests extends BaseTest{
-    private WebDriver driver;
-    private LoginPage loginPage;
+
+  
     private ReportsPage reportsPage;
-    private DashboardPage dasboard;
+    public DashboardPage dasboard;
 
     @Test
     public void reportslinkHeader()
-    {
-        loginPage= new LoginPage(driver);
-		loginPage.loginPerform(" Cunex Inc.", "Thenewpasswordiscunex@362");
+    {   
+		LoginPage lp= new LoginPage(driver);
+		lp.loginPerform(" Cunex Inc.", "Thenewpasswordiscunex@362");
         dasboard.clickReports();
         
         List<WebElement> links = reportsPage.getBlankTargetLinks();

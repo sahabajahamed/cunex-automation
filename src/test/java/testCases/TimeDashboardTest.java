@@ -11,18 +11,22 @@ import pageObjects.LoginPage;
 import pageObjects.TimeDashboardPage;
 
 public class TimeDashboardTest extends BaseTest {
+	private LoginPage loginPage;
+	private DashboardPage dashboard;
+	private TimeDashboardPage timedashboardPage;
+
 	@Test(priority = 1)
 	public void VerifyTimedashboard() throws InterruptedException, AWTException
 	{
-		LoginPage lp= new LoginPage(driver);
-		lp.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
-		DashboardPage dp= new DashboardPage(driver);
-		dp.clickHumenResource();
-		TimeDashboardPage tp=new TimeDashboardPage(driver);
+		loginPage= new LoginPage(driver);
+		loginPage.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
+		dashboard= new DashboardPage(driver);
+		dashboard.clickHumenResource();
+		timedashboardPage=new TimeDashboardPage(driver);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		 js.executeScript("window.scrollTo(0, document.body.scrollHeight);");
-		tp.clickTimedashboard();
-		Assert.assertEquals(tp.verifyTimedashboardtext(), "Time Dashboard", "Message not matched ");
+		 timedashboardPage.clickTimedashboard();
+		Assert.assertEquals(timedashboardPage.verifyTimedashboardtext(), "Time Dashboard", "Message not matched ");
 	
 		
 	}
@@ -30,18 +34,16 @@ public class TimeDashboardTest extends BaseTest {
 	@Test(priority = 2)
 	public void userAbletoperformApproveButton() throws InterruptedException, AWTException
 	{
-		LoginPage lp= new LoginPage(driver);
+		loginPage= new LoginPage(driver);
 		BaseTest.normalZoom();
 		BaseTest.zommout();
-		lp.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
-		DashboardPage dp= new DashboardPage(driver);
-		
-		dp.clickHumenResource();
+		loginPage.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
+		dashboard= new DashboardPage(driver);
+		dashboard.clickHumenResource();
 		BaseTest.zommout();
-		TimeDashboardPage tp=new TimeDashboardPage(driver);
-		
-		 tp.clickTimedashboard();
-		 tp.clickApproveButton();
+		timedashboardPage=new TimeDashboardPage(driver);
+		timedashboardPage.clickTimedashboard();
+		timedashboardPage.clickApproveButton();
 		
 		
 	}
