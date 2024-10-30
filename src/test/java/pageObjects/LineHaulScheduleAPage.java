@@ -3,8 +3,10 @@ package pageObjects;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class LineHaulScheduleAPage extends BasePage {
+    private WebDriverWait wait;
 
     public LineHaulScheduleAPage(WebDriver driver) {
         super(driver);
@@ -23,6 +25,17 @@ public class LineHaulScheduleAPage extends BasePage {
     @FindBy(xpath = "//select[@id='tractor' and @name='tractor']")
     private WebElement selectdropdown;
 
+    @FindBy(xpath = "//input[@id='run_origin']")
+    private WebElement runOrigin;
+    
+    @FindBy(xpath = "//input[@id='run_destination']")
+    private WebElement runDistination;
+    @FindBy(xpath = "//input[@id='run_number']")
+    private WebElement runNumber;
+
+    @FindBy(xpath = "//input[@value='all']")
+    private WebElement clickAllCheckBox;
+
     public String verifyLinehaulScheduleText()
     {
         return linehaulScheduleAText.getText();
@@ -31,6 +44,21 @@ public class LineHaulScheduleAPage extends BasePage {
     {
         getSelect(selectdropdown).selectByVisibleText(a);
     }
+
+    public void scheduleAbuttonclick()
+    {   
+        addScheduleButton.click();
+    }
+    public void clickScheduleA()
+    {
+        linehaulScheduleA.click();
+    }
+
+    public void VerifyUseraddSchedule(int origin, int distinatin, int runNumber)
+    {
+
+    }
+
 
 
 
