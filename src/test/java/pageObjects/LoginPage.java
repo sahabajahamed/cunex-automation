@@ -7,15 +7,17 @@ import org.openqa.selenium.support.PageFactory;
 
 
 
-public class LoginPage {
-	private  WebDriver driver;
-	
-	
-	
+public class LoginPage extends BasePage{
 	public LoginPage(WebDriver driver) {
-        this.driver = driver;
-        PageFactory.initElements(driver, this);
+        super(driver);
+        //TODO Auto-generated constructor stub
     }
+
+
+    private  WebDriver driver;
+	
+	
+	
 
     // Locators
     @FindBy(xpath = "//input[@placeholder='Enter your username']") 
