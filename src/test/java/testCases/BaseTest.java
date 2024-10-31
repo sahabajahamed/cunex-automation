@@ -72,9 +72,9 @@ public  class BaseTest {
 		
 	}
 	
-	public String randomNumber()
+	public String randomNumber(int random)
 	{
-		String generateNumber= RandomStringUtils.randomNumeric(10);
+		String generateNumber= RandomStringUtils.randomNumeric(random);
 		return generateNumber;
 	}
 	public String randomAlphaNumeric()
