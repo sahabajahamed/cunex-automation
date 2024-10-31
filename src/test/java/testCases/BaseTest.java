@@ -64,9 +64,9 @@ public  class BaseTest {
 	
 	
 	// Random value put here 
-	public String randomString()
+	public String randomString(int a)
 	{
-		String generateString=RandomStringUtils.randomAlphabetic(5);
+		String generateString=RandomStringUtils.randomAlphabetic(a);
 		return generateString;
 		//
 		
@@ -82,6 +82,11 @@ public  class BaseTest {
 		String generateNumber=RandomStringUtils.randomNumeric(5);
 		String generateString=RandomStringUtils.randomAlphabetic(4);
 		return (generateNumber+"@"+generateString );
+	}
+	public String randomemail()
+	{
+		String generateString=RandomStringUtils.randomAlphabetic(3);
+		return generateString+"@yopmail.com";
 	}
 	public  static void  zommout()
 	{
