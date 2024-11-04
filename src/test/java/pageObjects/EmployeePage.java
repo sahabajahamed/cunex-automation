@@ -16,9 +16,11 @@ public class EmployeePage extends BasePage{
       
     }
     //Sorting of the each column function
+    @FindBy(xpath = "//a[@id='arrow-employees']")
+    private WebElement clickEmployee;
     @FindBy(xpath = "//a[@id='reimbursements']")
     private WebElement reimbursement;
-    @FindBy(xpath = "//button[@data-bs-toggle='modal']")
+    @FindBy(xpath = "(//button[@class='btn'])[1]")
     private WebElement clickReimButton;
     @FindBy(xpath = "//h5[@id='exampleModalLabel']")
     private WebElement addReimText;
@@ -51,8 +53,7 @@ public class EmployeePage extends BasePage{
         reimbursement.click();
         String mainWindow = driver.getWindowHandle();
         Set<String> allWindow = driver.getWindowHandles();
-        for (String window : allWindow) 
-        {
+        for (String window : allWindow) {
             if (!window.equals(allWindow)) {
                 driver.switchTo().window(window);
                 clickReimButton.click();
@@ -62,6 +63,11 @@ public class EmployeePage extends BasePage{
 
         }
         driver.switchTo().window(mainWindow);
+    }
+    
+    public void clickEmployeeLink()
+    {
+        clickEmployee.click();
     }
 
     

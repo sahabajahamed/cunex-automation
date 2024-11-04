@@ -78,103 +78,115 @@ public class Test1 {
 	public void timedasbordPerform() throws InterruptedException, AWTException
 
 	
-	{	Thread.sleep(5000);
+	{
+		Thread.sleep(5000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		// Thread.sleep(5000);
 		// js.executeScript("document.body.style.zoom = '0.7';");
 		Robot robot = new Robot();
 		Thread.sleep(5000);
 		robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_SUBTRACT);
-        robot.keyRelease(KeyEvent.VK_SUBTRACT);
 		robot.keyPress(KeyEvent.VK_SUBTRACT);
-		 robot.keyRelease(KeyEvent.VK_SUBTRACT);
-		 robot.keyRelease(KeyEvent.VK_SUBTRACT);
-        robot.keyRelease(KeyEvent.VK_CONTROL); 
-		 driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
-    	driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("Thenewpasswordiscunex@362");
-		
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyPress(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+		driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
+		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("Thenewpasswordiscunex@362");
+
 		Thread.sleep(5000);
-	
-    	driver.findElement(By.xpath("//button[@class='btn full-btn']")).click();
+
+		driver.findElement(By.xpath("//button[@class='btn full-btn']")).click();
 		Thread.sleep(5000);
 		driver.findElement(By.xpath("//a[@id='step-human-resources']")).click();
-		 WebElement scrollableElement = driver.findElement(By.xpath("//div[@class='dashbord-left-menu-wraper blue-bg']"));
-		
-        js.executeScript("window.scrollBy(0,200)");
+		WebElement scrollableElement = driver
+				.findElement(By.xpath("//div[@class='dashbord-left-menu-wraper blue-bg']"));
+
+		js.executeScript("window.scrollBy(0,200)");
 		js.executeScript("window.scrollBy(0,200);", scrollableElement);
 		Thread.sleep(5000);
 		driver.findElement(By.xpath("//a[@id='arrow-time-dashboard']")).click();
 		Thread.sleep(5000);
-		WebElement dropdown= driver.findElement(By.xpath("//select[@id='filter_paygroup']"));
-		Select select= new Select(dropdown);
+		WebElement dropdown = driver.findElement(By.xpath("//select[@id='filter_paygroup']"));
+		Select select = new Select(dropdown);
 		Thread.sleep(5000);
 		select.selectByVisibleText("Office");
 		Thread.sleep(5000);
-		 js.executeScript("document.body.style.zoom = '0.8';");
+		js.executeScript("document.body.style.zoom = '0.8';");
 
-		 List<WebElement> ls= driver.findElements(By.xpath("//button[text()='Approve']"));
+		List<WebElement> ls = driver.findElements(By.xpath("//button[text()='Approve']"));
 
-		 if (ls.isEmpty()) {
-            System.out.println("No 'Approve' buttons found.");
-        } else {
-            for (WebElement button : ls) {
-                button.click();
+		if (ls.isEmpty()) {
+			System.out.println("No 'Approve' buttons found.");
+		} else {
+			for (WebElement button : ls) {
+				button.click();
 
-                String errorMessage = driver.findElement(By.id("swal2-html-container")).getText();
+				String errorMessage = driver.findElement(By.id("swal2-html-container")).getText();
 
-                if (errorMessage.contains("Please resolve those to continue.")) {
-                    driver.findElement(By.xpath("//button[normalize-space()='OK']")).click();
-					List<WebElement>driveLink=driver .findElements(By.xpath("//td[@class='sorting_1'] //a[@href]"));
+				if (errorMessage.contains("Please resolve those to continue.")) {
+					driver.findElement(By.xpath("//button[normalize-space()='OK']")).click();
+					List<WebElement> driveLink = driver.findElements(By.xpath("//td[@class='sorting_1'] //a[@href]"));
 					for (WebElement webElement : driveLink) {
 						webElement.click();
 						Thread.sleep(5000);
 						String mainWindowHandle = driver.getWindowHandle();
 						Set<String> allWindowHandles = driver.getWindowHandles();
 						for (String windowHandle : allWindowHandles) {
-							if (!windowHandle.equals(mainWindowHandle)) 
-							{
+							if (!windowHandle.equals(mainWindowHandle)) {
 								driver.switchTo().window(windowHandle);
-								driver.findElement(By.xpath("//div[@class='d-flex justify-content-end align-items-center mb-3']//button[@id='expand_btn']")).click();
-								List<WebElement> markasNoCritical= driver .findElements(By.xpath("//button[@title='Mark as no critical']"));
-							for (WebElement markNocritical : markasNoCritical) {
-								Thread.sleep(5000);
-								try {
-          	  					WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-           					 WebElement refreshedButton = wait.until(ExpectedConditions.refreshed(ExpectedConditions.elementToBeClickable(markNocritical)));
-           					 refreshedButton.click();
+								driver.findElement(By.xpath(
+										"//div[@class='d-flex justify-content-end align-items-center mb-3']//button[@id='expand_btn']"))
+										.click();
+								List<WebElement> markasNoCritical = driver
+										.findElements(By.xpath("//button[@title='Mark as no critical']"));
+								for (WebElement markNocritical : markasNoCritical) {
+									Thread.sleep(5000);
+									try {
+										WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+										WebElement refreshedButton = wait.until(ExpectedConditions
+												.refreshed(ExpectedConditions.elementToBeClickable(markNocritical)));
+										refreshedButton.click();
 
-       				 } 	catch (StaleElementReferenceException e) {
-           						 System.out.println("Encountered a stale element, retrying...");
-        }
-								// markNocritical.click();
-								Thread.sleep(5000);
-								WebElement select2=driver.findElement(By.xpath("//select[@id='critical_reason_id']"));
-								Select sel = new Select(select2);
-								sel.selectByVisibleText("Incorrect Schedule");
-								driver.findElement(By.id("no_critical_note")).sendKeys("exx");
-								driver.findElement(By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']")).click();
-								
-							}
+									} catch (StaleElementReferenceException e) {
+										System.out.println("Encountered a stale element, retrying...");
+									}
+									// markNocritical.click();
+									Thread.sleep(5000);
+									WebElement select2 = driver
+											.findElement(By.xpath("//select[@id='critical_reason_id']"));
+									Select sel = new Select(select2);
+									sel.selectByVisibleText("Incorrect Schedule");
+									driver.findElement(By.id("no_critical_note")).sendKeys("exx");
+									driver.findElement(
+											By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']"))
+											.click();
 
-						driver.navigate().back();
+								}
+
+								driver.navigate().back();
 							}
 						}
-					
-						
+
 					}
-                } else if (errorMessage.contains("Non-Critical Exception")) {
-                    driver.findElement(By.xpath("//button[@class='swal2-confirm swal2-styled swal2-default-outline']")).click();
-                } else if (errorMessage.contains("The data has been updated successfully.")) {
-                    driver.findElement(By.xpath("//button[normalize-space()='OK']")).click();
-                } else {
-                    System.out.println("Unexpected error message: " + errorMessage);
-                }
-            }
+				} else if (errorMessage.contains("Non-Critical Exception")) {
+					driver.findElement(By.xpath("//button[@class='swal2-confirm swal2-styled swal2-default-outline']"))
+							.click();
+				} else if (errorMessage.contains("The data has been updated successfully.")) {
+					driver.findElement(By.xpath("//button[normalize-space()='OK']")).click();
+				} else {
+					System.out.println("Unexpected error message: " + errorMessage);
+				}
+			}
 			//button[normalize-space()='Ok']
-			 
-			
-		 }
-			
-}
+
+		}
+
+	}
+	@Test
+	public void addReim()
+	{
+		
+	}
 }
