@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -98,13 +99,15 @@ public  class BaseTest {
 		Robot robot = new Robot();
 		Thread.sleep(5000);
 		robot.keyPress(KeyEvent.VK_CONTROL);
-        robot.keyPress(KeyEvent.VK_SUBTRACT);
-        robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyPress(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
 		robot.keyPress(KeyEvent.VK_SUBTRACT);
 		robot.keyRelease(KeyEvent.VK_SUBTRACT);
 		robot.keyRelease(KeyEvent.VK_SUBTRACT);
-        robot.keyRelease(KeyEvent.VK_CONTROL); 
+		robot.keyRelease(KeyEvent.VK_CONTROL);
 	}
+	
+	Random random = new Random();
 
 	
 

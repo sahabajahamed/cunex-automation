@@ -15,7 +15,7 @@ public class EmployeeTest extends BaseTest {
 
 
     @Test
-    public void verifyAddReimbursement()
+    public void verifyAddReimbursement() throws InterruptedException
     {
         loginpage= new LoginPage(driver);
 		loginpage.loginPerform(" Cunex Inc.", "Thenewpasswordiscunex@362");
@@ -25,6 +25,20 @@ public class EmployeeTest extends BaseTest {
         employeePage = new EmployeePage(driver);
         employeePage.clickEmployeeLink();
         employeePage.verifyReimbursementPage();
+       
+            employeePage.selectReimbursementEmployeeFromDropdown();
+            employeePage.selectDateFieldFromCalender();
+            employeePage.enterReimbursementAmount(randomNumber(3));
+            employeePage.writeDescriptionForReimbursement(randomString(40));
+            employeePage.chouseImages();
+            Thread.sleep(3000);
+            employeePage.createReimbursement();
+            Thread.sleep(5000);
+           
+
+        }
+       
+
 
         
     }
@@ -32,4 +46,4 @@ public class EmployeeTest extends BaseTest {
 
 
     
-}
+

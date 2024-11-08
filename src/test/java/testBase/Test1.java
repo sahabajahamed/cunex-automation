@@ -31,55 +31,47 @@ import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Test1 {
- WebDriver driver;
- WebDriver wait;
+	WebDriver driver;
 
 	// Driver is open
 	@BeforeMethod
 	public void setup() {
-	try {
-		  ChromeOptions options = new ChromeOptions();
-	        Map<String, Object> prefs = new HashMap<>();
+		try {
+			ChromeOptions options = new ChromeOptions();
+			Map<String, Object> prefs = new HashMap<>();
 
-	        // Disable notifications permission pop-up
-	        prefs.put("profile.default_content_setting_values.notifications", 2);
-	      
+			// Disable notifications permission pop-up
+			prefs.put("profile.default_content_setting_values.notifications", 2);
 
-	        // Set these preferences into ChromeOptions
-	        options.setExperimentalOption("prefs", prefs);
+			// Set these preferences into ChromeOptions
+			options.setExperimentalOption("prefs", prefs);
 
-	      
-	        WebDriverManager.chromedriver().setup();
-	        driver = new ChromeDriver(options);
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver(options);
 
-	        // Maximize window and set implicit wait
-	        driver.manage().window().maximize();
-	        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+			// Maximize window and set implicit wait
+			driver.manage().window().maximize();
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
-	        // Navigate to the login page
-	        driver.get("https://staging.groundmetrx.com/");
-	       
+			// Navigate to the login page
+			driver.get("https://staging.groundmetrx.com/");
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch (Exception e) {
-	e.printStackTrace();
 	}
-	}
-	
+
 	// driver is close 
 	@AfterMethod
-	public void teardown()
-	{
-		if (driver!= null)
-		{
+	public void teardown() {
+		if (driver != null) {
 			driver.quit();
 		}
 	}
-	
-	
-	@Test(priority=1)
+
+	@Test(priority = 1)
 	public void timedasbordPerform() throws InterruptedException, AWTException
 
-	
 	{
 		Thread.sleep(5000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -186,9 +178,9 @@ public class Test1 {
 		}
 
 	}
+
 	@Test
-	public void VerifyAddReimbursement() throws InterruptedException, AWTException
-	{
+	public void VerifyAddReimbursement() throws InterruptedException, AWTException {
 
 		Thread.sleep(5000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
@@ -258,11 +250,9 @@ public class Test1 {
 		}
 
 	}
-	
 
 	@Test
-	public void verifyAdminApproveOrRejectReim() throws InterruptedException, AWTException
-	{
+	public void verifyAdminApproveOrRejectReim() throws InterruptedException, AWTException {
 		Thread.sleep(5000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
 		// Thread.sleep(5000);
@@ -296,45 +286,177 @@ public class Test1 {
 		Thread.sleep(5000);
 
 		List<WebElement> viewALLbutton = driver.findElements(By.xpath("//tbody//tr//td//button[text()='View']"));
-		
-		
-		
-		for (WebElement viewButton : viewALLbutton) 
-		{
-			try
-			{
+
+		for (WebElement viewButton : viewALLbutton) {
+			try {
 				viewButton.click();
-			Thread.sleep(4000);
-			WebElement approveButton = driver.findElement(By.xpath("//button[normalize-space()='Approve']"));
-			WebElement rejecteButton = driver.findElement(By.xpath("//button[normalize-space()='Reject']"));
-
-
-			if(new Random().nextBoolean())
-			{
-				approveButton.click();
 				Thread.sleep(4000);
-				driver.findElement(By.xpath("//button[normalize-space()='Yes']")).click();
-				Thread.sleep(5000);
-				System.out.println("Approve Button click Sucessfully");
-			}
-			else
-			{
-				rejecteButton.click();
-				driver.findElement(By.xpath("//button[normalize-space()='Yes']")).click();
-				Thread.sleep(5000);
-				System.out.println("Reimbursement is Rejected ");
-			}
+				WebElement approveButton = driver.findElement(By.xpath("//button[normalize-space()='Approve']"));
+				WebElement rejecteButton = driver.findElement(By.xpath("//button[normalize-space()='Reject']"));
 
-			}catch(StaleElementReferenceException e)
-			{
+				if (new Random().nextBoolean()) {
+					approveButton.click();
+					Thread.sleep(4000);
+					driver.findElement(By.xpath("//button[normalize-space()='Yes']")).click();
+					Thread.sleep(5000);
+					System.out.println("Approve Button click Sucessfully");
+				} else {
+					rejecteButton.click();
+					driver.findElement(By.xpath("//button[normalize-space()='Yes']")).click();
+					Thread.sleep(5000);
+					System.out.println("Reimbursement is Rejected ");
+				}
+
+			} catch (StaleElementReferenceException e) {
 				System.out.println("Encountered StaleElementReferenceException, retrying...");
-				viewALLbutton=driver.findElements(By.xpath("//tbody//tr//td//button[text()='View']"));
+				viewALLbutton = driver.findElements(By.xpath("//tbody//tr//td//button[text()='View']"));
 
 			}
-			
-			
-			
+
 		}
 
+	}
+
+	@Test
+	public void addedTimeInTimecard() throws InterruptedException, AWTException {
+		Thread.sleep(5000);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		// Thread.sleep(5000);
+		// js.executeScript("document.body.style.zoom = '0.7';");
+		Robot robot = new Robot();
+		Thread.sleep(5000);
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyPress(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+		driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
+		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("Thenewpasswordiscunex@362");
+		driver.findElement(By.xpath("//button[@class='btn full-btn']")).click();
+		driver.findElement(By.xpath("//a[@id='step-human-resources']")).click();
+		WebElement scrollableElement = driver
+				.findElement(By.xpath("//div[@class='dashbord-left-menu-wraper blue-bg']"));
+
+		js.executeScript("window.scrollBy(0,200)");
+		js.executeScript("window.scrollBy(0,200);", scrollableElement);
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//a[@id='arrow-time-dashboard']")).click();
+		Thread.sleep(5000);
+		WebElement dropdown = driver.findElement(By.xpath("//select[@id='filter_paygroup']"));
+		Select select = new Select(dropdown);
+		Thread.sleep(5000);
+		select.selectByVisibleText("Office");
+		Thread.sleep(5000);
+		js.executeScript("document.body.style.zoom = '0.8';");
+		List<WebElement> driveLink = driver.findElements(By.xpath("//td[@class='sorting_1'] //a[@href]"));
+		for (WebElement webElement : driveLink) {
+			webElement.click();
+			Thread.sleep(5000);
+			String mainWindowHandle = driver.getWindowHandle();
+			Set<String> allWindowHandles = driver.getWindowHandles();
+			for (String windowHandle : allWindowHandles) {
+				if (!windowHandle.equals(mainWindowHandle)) {
+					driver.switchTo().window(windowHandle);
+					List<WebElement> allday = driver.findElements(By.xpath("//div[@class='accordion-item']"));
+
+					for (WebElement alldayClick : allday) {
+						alldayClick.click();
+						addedHour();
+						// regularHourAdded();
+
+					}
+
+				}
+
+			}
+		}
+	}
+
+	public void addedHour() throws InterruptedException {
+
+		List<WebElement> addhourButton = driver.findElements(
+				By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='add']"));
+		List<WebElement> updateButton = driver.findElements(
+				By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='update']"));
+		List<WebElement> markAsNoCritical = driver
+				.findElements(By.xpath("//button[@title='Mark as no critical']"));
+		if (!addhourButton.isEmpty() && updateButton.isEmpty()) {
+			for (WebElement addhourButtonClick : addhourButton) {
+
+				try {
+					addhourButtonClick.click();
+					WebElement selectdropDowb = driver.findElement(By.xpath("//select[@id='swal2-select']"));
+					Select sel = new Select(selectdropDowb);
+					sel.selectByVisibleText("Holiday/Vac/Sick Hour");
+					driver.findElement(By.xpath("//button[normalize-space()='OK']")).click();
+					WebElement holidaySIckLevae = driver
+							.findElement(By.xpath("//select[@id='hours_earning_code']"));
+					Thread.sleep(5000);
+					Select sel2 = new Select(holidaySIckLevae);
+					Thread.sleep(5000);
+					sel2.selectByVisibleText("VAC");
+					Thread.sleep(5000);
+					driver.findElement(By.xpath("//input[@id='total_hours']")).sendKeys("8");
+					Thread.sleep(5000);
+					driver.findElement(By.xpath("//button[@type='submit'][normalize-space()='Add Hour']"))
+							.click();
+					Thread.sleep(5000);
+
+				} catch (StaleElementReferenceException e) {
+					System.out.println("Stale Element Reference Exception encountered, re-fetching elements.");
+					break;
+				}
+
+			}
+		}
+
+	}
+
+	public void regularHourAdded() throws AWTException, InterruptedException {
+		List<WebElement> addhourButton = driver.findElements(
+				By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='add']"));
+		List<WebElement> updateButton = driver.findElements(
+				By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='update']"));
+		List<WebElement> markAsNoCritical = driver
+				.findElements(By.xpath("//button[@title='Mark as no critical']"));
+		if (!addhourButton.isEmpty() && updateButton.isEmpty()) {
+			for (WebElement addhourButtonClick : addhourButton) {
+
+				try {
+					addhourButtonClick.click();
+					WebElement selectdropDowb = driver.findElement(By.xpath("//select[@id='swal2-select']"));
+					Select sel = new Select(selectdropDowb);
+					sel.selectByVisibleText("Regular Hour");
+					driver.findElement(By.xpath("//button[normalize-space()='OK']")).click();
+					Thread.sleep(5000);
+					driver.findElement(
+							By.xpath("(//table[@class='ui-datepicker-calendar']//td[@data-event='click'])[1]")).click();
+							Thread.sleep(5000);
+					driver.findElement(By.xpath("//input[@placeholder='Start Time']")).sendKeys("12:00 AM");
+					Thread.sleep(5000);
+					// robot.keyPress(KeyEvent.VK_DOWN);
+					// robot.keyRelease(KeyEvent.VK_DOWN);
+					// robot.keyPress(KeyEvent.VK_ENTER);
+					// robot.keyRelease(KeyEvent.VK_ENTER);
+					
+					driver.findElement(By.xpath("//input[@id='punch_end_time']")).sendKeys("08:00 PM");
+					
+					driver.findElement(By.xpath(
+							"//div[@class='col-md-12 text-center']//button[@type='submit'][normalize-space()='Update Time']"))
+							.click();
+							Thread.sleep(5000);
+					
+
+
+
+
+				} catch (StaleElementReferenceException e) {
+					System.out.println("Stale Element Reference Exception encountered, re-fetching elements.");
+					break;
+				}
+			}
+		}
 	}
 }
