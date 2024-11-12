@@ -27,7 +27,7 @@ public class OnboardingTest extends BaseTest {
        o1.middlename(randomString(3));
         o1.lastname(randomString(5));
         o1.email(randomemail());
-        o1.phoneNo(randomNumber());
+        o1.phoneNo(randomNumber(10));
         o1.selectdepartment("Line Haul");
         Thread.sleep(2000);
         o1.selectentity("Cunex Inc.");
