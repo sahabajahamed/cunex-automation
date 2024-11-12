@@ -87,7 +87,7 @@ public class Test1 {
 		robot.keyRelease(KeyEvent.VK_SUBTRACT);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
 		driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
-		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("Thenewpasswordiscunex@362");
+		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("123456");
 
 		Thread.sleep(5000);
 
@@ -196,7 +196,7 @@ public class Test1 {
 		robot.keyRelease(KeyEvent.VK_SUBTRACT);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
 		driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
-		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("Thenewpasswordiscunex@362");
+		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("123456");
 		driver.findElement(By.xpath("//button[@class='btn full-btn']")).click();
 		driver.findElement(By.xpath("//a[@id='step-human-resources']")).click();
 		driver.findElement(By.xpath("//a[@id='arrow-employees']")).click();
@@ -267,7 +267,7 @@ public class Test1 {
 		robot.keyRelease(KeyEvent.VK_SUBTRACT);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
 		driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
-		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("Thenewpasswordiscunex@362");
+		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("123456");
 		driver.findElement(By.xpath("//button[@class='btn full-btn']")).click();
 		driver.findElement(By.xpath("//a[@id='step-human-resources']")).click();
 		driver.findElement(By.xpath("//a[@id='arrow-employees']")).click();
@@ -321,6 +321,7 @@ public class Test1 {
 	public void addedTimeInTimecard() throws InterruptedException, AWTException {
 		Thread.sleep(5000);
 		JavascriptExecutor js = (JavascriptExecutor) driver;
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		// Thread.sleep(5000);
 		// js.executeScript("document.body.style.zoom = '0.7';");
 		Robot robot = new Robot();
@@ -333,7 +334,7 @@ public class Test1 {
 		robot.keyRelease(KeyEvent.VK_SUBTRACT);
 		robot.keyRelease(KeyEvent.VK_CONTROL);
 		driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
-		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("Thenewpasswordiscunex@362");
+		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("123456");
 		driver.findElement(By.xpath("//button[@class='btn full-btn']")).click();
 		driver.findElement(By.xpath("//a[@id='step-human-resources']")).click();
 		WebElement scrollableElement = driver
@@ -347,11 +348,12 @@ public class Test1 {
 		WebElement dropdown = driver.findElement(By.xpath("//select[@id='filter_paygroup']"));
 		Select select = new Select(dropdown);
 		Thread.sleep(5000);
-		select.selectByVisibleText("Office");
+		select.selectByVisibleText("P&D NJ");
 		Thread.sleep(5000);
 		js.executeScript("document.body.style.zoom = '0.8';");
 		List<WebElement> driveLink = driver.findElements(By.xpath("//td[@class='sorting_1'] //a[@href]"));
-		for (WebElement webElement : driveLink) {
+		for (WebElement webElement : driveLink) 
+		{
 			webElement.click();
 			Thread.sleep(5000);
 			String mainWindowHandle = driver.getWindowHandle();
@@ -362,8 +364,10 @@ public class Test1 {
 					List<WebElement> allday = driver.findElements(By.xpath("//div[@class='accordion-item']"));
 
 					for (WebElement alldayClick : allday) {
-						alldayClick.click();
-						addedHour();
+						wait.until(ExpectedConditions.elementToBeClickable(alldayClick)).click();
+						
+						markAsNoCritical();
+						// addedHour();
 						// regularHourAdded();
 
 					}
@@ -433,24 +437,20 @@ public class Test1 {
 					Thread.sleep(5000);
 					driver.findElement(
 							By.xpath("(//table[@class='ui-datepicker-calendar']//td[@data-event='click'])[1]")).click();
-							Thread.sleep(5000);
+					Thread.sleep(5000);
 					driver.findElement(By.xpath("//input[@placeholder='Start Time']")).sendKeys("12:00 AM");
 					Thread.sleep(5000);
 					// robot.keyPress(KeyEvent.VK_DOWN);
 					// robot.keyRelease(KeyEvent.VK_DOWN);
 					// robot.keyPress(KeyEvent.VK_ENTER);
 					// robot.keyRelease(KeyEvent.VK_ENTER);
-					
+
 					driver.findElement(By.xpath("//input[@id='punch_end_time']")).sendKeys("08:00 PM");
-					
+
 					driver.findElement(By.xpath(
 							"//div[@class='col-md-12 text-center']//button[@type='submit'][normalize-space()='Update Time']"))
 							.click();
-							Thread.sleep(5000);
-					
-
-
-
+					Thread.sleep(5000);
 
 				} catch (StaleElementReferenceException e) {
 					System.out.println("Stale Element Reference Exception encountered, re-fetching elements.");
@@ -458,5 +458,52 @@ public class Test1 {
 				}
 			}
 		}
+	}
+
+	public void markAsNoCritical() {
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+		// try {
+		// 	List<WebElement> addhourButton = driver.findElements(
+		// 			By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='add']"));
+		// 	List<WebElement> updateButton = driver.findElements(
+		// 			By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='update']"));
+			List<WebElement> markAsNoCritical = driver.findElements(By.xpath("//button[@title='Mark as no critical']"));
+
+			if (!markAsNoCritical.isEmpty()) {
+				for (WebElement markAsNoElement : markAsNoCritical) {
+					int retryCount = 0;
+					boolean clicked = false;
+
+					while (!clicked && retryCount < 3) { // Retry up to 3 times if StaleElementReferenceException occurs
+						try {
+							wait.until(ExpectedConditions.elementToBeClickable(markAsNoElement)).click();
+							WebElement select2 = wait.until(ExpectedConditions
+									.visibilityOfElementLocated(By.xpath("//select[@id='critical_reason_id']")));
+							Select sel = new Select(select2);
+							sel.selectByVisibleText("Incorrect Schedule");
+
+							driver.findElement(By.id("no_critical_note")).sendKeys("exx");
+							driver.findElement(By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']"))
+									.click();
+							clicked = true; // Set to true if click is successful
+
+						} catch (StaleElementReferenceException e) {
+							// Handle stale element by refetching markAsNoCritical list
+							retryCount++;
+							System.out.println("Retrying due to stale element - Attempt " + retryCount);
+							markAsNoCritical = driver.findElements(By.xpath("//button[@title='Mark as no critical']"));
+							if (retryCount >= markAsNoCritical.size())
+								break; // Avoid out of bounds
+							markAsNoElement = markAsNoCritical.get(retryCount);
+						}
+					}
+				}
+			}
+		// } catch (Exception e) {
+		// 	System.out.println("An error occurred: " + e.getMessage());
+		// }
+
 	}
 }

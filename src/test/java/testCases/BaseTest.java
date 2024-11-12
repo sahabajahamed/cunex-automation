@@ -16,6 +16,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 
+import com.github.javafaker.Faker;
+
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public  class BaseTest {
@@ -107,7 +109,21 @@ public  class BaseTest {
 		robot.keyRelease(KeyEvent.VK_CONTROL);
 	}
 	
-	Random random = new Random();
+	Faker fake = new Faker();
+
+	public String randomFirstName()
+	{
+
+		String firstname = fake.name().firstName();
+		return firstname;
+	}
+
+	public String randomLastName()
+	{
+		String lastName = fake.name().lastName();
+		return lastName;
+	}
+
 
 	
 
