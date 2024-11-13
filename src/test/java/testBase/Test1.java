@@ -352,8 +352,7 @@ public class Test1 {
 		Thread.sleep(5000);
 		js.executeScript("document.body.style.zoom = '0.8';");
 		List<WebElement> driveLink = driver.findElements(By.xpath("//td[@class='sorting_1'] //a[@href]"));
-		for (WebElement webElement : driveLink) 
-		{
+		for (WebElement webElement : driveLink) {
 			webElement.click();
 			Thread.sleep(5000);
 			String mainWindowHandle = driver.getWindowHandle();
@@ -365,15 +364,50 @@ public class Test1 {
 
 					for (WebElement alldayClick : allday) {
 						wait.until(ExpectedConditions.elementToBeClickable(alldayClick)).click();
-						
-						markAsNoCritical();
-						// addedHour();
-						// regularHourAdded();
+
+						List<WebElement> markAsNoCritical = driver
+								.findElements(By.xpath("//button[@title='Mark as no critical']"));
+
+						if (!markAsNoCritical.isEmpty()) {
+							for (WebElement markAsNoElement : markAsNoCritical) {
+								int retryCount = 0;
+								boolean clicked = false;
+
+								while (!clicked && retryCount < 3) { // Retry up to 3 times if StaleElementReferenceException occurs
+									try {
+										wait.until(ExpectedConditions.elementToBeClickable(markAsNoElement)).click();
+										WebElement select2 = wait.until(ExpectedConditions
+												.visibilityOfElementLocated(
+														By.xpath("//select[@id='critical_reason_id']")));
+										Select sel = new Select(select2);
+										sel.selectByVisibleText("Incorrect Schedule");
+
+										driver.findElement(By.id("no_critical_note")).sendKeys("exx");
+										driver.findElement(
+												By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']"))
+												.click();
+										clicked = true; // Set to true if click is successful
+
+									} catch (StaleElementReferenceException e) {
+										// Handle stale element by refetching markAsNoCritical list
+										retryCount++;
+										System.out.println("Retrying due to stale element - Attempt " + retryCount);
+										markAsNoCritical = driver
+												.findElements(By.xpath("//button[@title='Mark as no critical']"));
+										if (retryCount >= markAsNoCritical.size())
+											break; // Avoid out of bounds
+										markAsNoElement = markAsNoCritical.get(retryCount);
+									}
+								}
+							}
+							// addedHour();
+							// regularHourAdded();
+
+						}
 
 					}
 
 				}
-
 			}
 		}
 	}
