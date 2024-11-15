@@ -8,6 +8,7 @@ import java.util.Random;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class EmployeeProfilePage extends BasePage {
@@ -107,7 +108,7 @@ public class EmployeeProfilePage extends BasePage {
         editButton.click();
     }
 
-    public void setStartDate(String date) {
+    public void setStartDate() {
         startDateClick.click();
         if (!startDate.isEmpty()) {
             Random random = new Random();
@@ -139,8 +140,16 @@ public class EmployeeProfilePage extends BasePage {
         homeTerminal.sendKeys(terminal);
     }
 
-    public void selectDepartment(String dept) {
-        getSelect(depearment).selectByVisibleText(dept);
+    public void selectDepartment(WebElement dept) {
+        Select dropdown = new Select( dept);
+        List<WebElement> options = dropdown.getOptions();
+        if(options.size()>1)
+        {
+            Random random = new Random();
+            int randomIndex = 1 + random.nextInt(options.size() - 1);
+            dropdown.selectByIndex(randomIndex);
+
+        }
     }
 
     public void enterPosition(String positionName) {
@@ -152,28 +161,65 @@ public class EmployeeProfilePage extends BasePage {
          getSelect(entity).selectByVisibleText(entityName);
     }
 
-    public void selectType(String typeName) {
-        getSelect(type).selectByVisibleText(typeName);
+    public void selectType(WebElement typeName) {
+        Select dropdown = new Select( typeName);
+        List<WebElement> options = dropdown.getOptions();
+        if(options.size()>1)
+        {
+            Random random = new Random();
+            int randomIndex = 1 + random.nextInt(options.size() - 1);
+            dropdown.selectByIndex(randomIndex);
+
+        }
     }
     public void enterManager(String managerName) {
         manager.clear();
         manager.sendKeys(managerName);
     }
 
-    public void setDotCardExpiration(String expirationDate) {
-        dotCardExcreption.sendKeys(expirationDate);
+    public void setDotCardExpiration() {
+        dotCardExcreption.click();
+        if (!startDate.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(startDate.size());
+            WebElement randomDate = startDate.get(randomIndex);
+            randomDate.click();
+        }
     }
 
-    public void setLicenseExpiration(String expirationDate) {
-        licenseExpiration.sendKeys(expirationDate);
+    public void setLicenseExpiration() {
+        licenseExpiration.click();
+        if (!startDate.isEmpty()) {
+            Random random = new Random();
+            int randomIndex = random.nextInt(startDate.size());
+            WebElement randomDate = startDate.get(randomIndex);
+            randomDate.click();
+        }
     }
 
-    public void selectShiftTime(String shift) {
-        getSelect(shiftTime).selectByVisibleText(shift);
+    public void selectShiftTime(WebElement shift) {
+        Select dropdown = new Select( shift);
+        List<WebElement> options = dropdown.getOptions();
+        if(options.size()>1)
+        {
+            Random random = new Random();
+            int randomIndex = 1 + random.nextInt(options.size() - 1);
+            dropdown.selectByIndex(randomIndex);
+
+        }
+        
     }
 
-    public void selectEmpType(String empTypeName) {
-        getSelect(empType).selectByVisibleText(empTypeName);
+    public void selectEmpType(WebElement empTypeName) {
+        Select dropdown = new Select( empTypeName);
+        List<WebElement> options = dropdown.getOptions();
+        if(options.size()>1)
+        {
+            Random random = new Random();
+            int randomIndex = 1 + random.nextInt(options.size() - 1);
+            dropdown.selectByIndex(randomIndex);
+
+        }
     }
 
 
