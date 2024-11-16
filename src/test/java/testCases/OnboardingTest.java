@@ -3,7 +3,6 @@ package testCases;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-
 import pageObjects.DashboardPage;
 import pageObjects.LoginPage;
 import pageObjects.Onboardingpage;
@@ -24,7 +23,7 @@ public class OnboardingTest extends BaseTest {
         Thread.sleep(2000);
         Assert.assertEquals(o1.addnewhiretext(), "Add New Hire","addnewhire pop up is not displaying");
         o1.firstname(randomString(7));
-       o1.middlename(randomString(3));
+        o1.middlename(randomString(3));
         o1.lastname(randomString(5));
         o1.email(randomemail());
         o1.phoneNo(randomNumber(10));
