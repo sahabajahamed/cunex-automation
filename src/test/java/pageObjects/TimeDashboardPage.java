@@ -62,6 +62,15 @@ public class TimeDashboardPage extends BasePage{
 	{
 		timeDashboard.click();
 	}
+
+	public void clickDriverName()
+	{
+		for (WebElement webElement : driverLinks) {
+			webElement.click();
+			
+			
+		}
+	}
 	
 	public void clickApproveButton() throws InterruptedException
 	{

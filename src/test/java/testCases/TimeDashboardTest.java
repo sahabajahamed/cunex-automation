@@ -8,6 +8,7 @@ import org.testng.annotations.Test;
 
 import pageObjects.DashboardPage;
 import pageObjects.LoginPage;
+import pageObjects.TimeCardpage;
 import pageObjects.TimeDashboardPage;
 
 public class TimeDashboardTest extends BaseTest {
@@ -19,7 +20,7 @@ public class TimeDashboardTest extends BaseTest {
 	public void VerifyTimedashboard() throws InterruptedException, AWTException
 	{
 		loginPage= new LoginPage(driver);
-		loginPage.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
+		loginPage.loginPerform("Cunex Inc.", "123456");
 		dashboard= new DashboardPage(driver);
 		dashboard.clickHumenResource();
 		timedashboardPage=new TimeDashboardPage(driver);
@@ -34,20 +35,30 @@ public class TimeDashboardTest extends BaseTest {
 	@Test(priority = 2)
 	public void userAbletoperformApproveButton() throws InterruptedException, AWTException
 	{
-		loginPage= new LoginPage(driver);
+		loginPage = new LoginPage(driver);
 		BaseTest.normalZoom();
 		BaseTest.zommout();
-		loginPage.loginPerform("Cunex Inc.", "Thenewpasswordiscunex@362");
-		dashboard= new DashboardPage(driver);
+		loginPage.loginPerform("Cunex Inc.", "123456");
+		dashboard = new DashboardPage(driver);
 		dashboard.clickHumenResource();
 		BaseTest.zommout();
-		timedashboardPage=new TimeDashboardPage(driver);
+		Thread.sleep(4000);
+		TimeDashboardPage timedashboardPage=new TimeDashboardPage(driver);
 		timedashboardPage.clickTimedashboard();
-		timedashboardPage.clickApproveButton();
+
+	
+		// timedashboardPage.clickApproveButton();
+		TimeCardpage timecard = new TimeCardpage();
+		timedashboardPage.clickDriverName();
+		switchToNWindow();
+		timecard.interactEachday();
+
 		
-		
-		
+
+
+
 	}
+	
 	
 	
 	

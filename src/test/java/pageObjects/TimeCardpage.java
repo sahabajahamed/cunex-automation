@@ -6,9 +6,11 @@ import java.util.List;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TimeCardpage extends BasePage {
-    
+    WebDriverWait wait;
     public TimeCardpage()
     {
         super(driver);
@@ -44,10 +46,55 @@ public class TimeCardpage extends BasePage {
     
     //-----------------------------------------------------Method create from Sahabaj--------------------------------------//
 
-    public void clickEachDay()
-    {
-        
-    }
+   
 
+
+    public void expandDaySection(WebElement daySection)
+    {
+
+        daySection.click();
+        wait.until(ExpectedConditions.visibilityOf(daySection));
+    }
+    
+    public void performedConditioanlAction()
+    {
+        try {
+            if (addHour.isDisplayed()) {
+                addHour.click();
+                getSelect(selectTypeOfhour).selectByIndex(2);
+                hourConfirmOKButton.click();
+                getSelect(selectReson).selectByIndex(2);
+                inputHolidayHour.sendKeys("20");
+                clickHolidayAddHourButton.click();
+
+                
+
+            }
+        } catch (Exception e) {
+            System.out.println("add hour button is not visaible");
+        }
+        try {
+            if (markAsNoCritical.isDisplayed()) {
+                markAsNoCritical.click();
+                getSelect(selectReson).selectByIndex(2);
+                notes.sendKeys("wasim ");
+                markIt.click();
+
+            }
+
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+
+    }
+    
+    public void interactEachday()
+    {
+        for (WebElement webElement : eachdayClick) {
+            expandDaySection(webElement);
+            performedConditioanlAction();
+            
+        }
+    }
 
 }
