@@ -18,6 +18,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -28,6 +29,7 @@ import org.testng.annotations.Test;
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class Test1 {
+	WebDriverWait wait;
 	WebDriver driver;
 
 	// Driver is open
@@ -345,11 +347,12 @@ public class Test1 {
 		WebElement dropdown = driver.findElement(By.xpath("//select[@id='filter_paygroup']"));
 		Select select = new Select(dropdown);
 		Thread.sleep(5000);
-		select.selectByVisibleText("P&D NJ");
+		select.selectByVisibleText("P&D NY");
 		Thread.sleep(5000);
 		js.executeScript("document.body.style.zoom = '0.8';");
 		List<WebElement> driveLink = driver.findElements(By.xpath("//td[@class='sorting_1'] //a[@href]"));
 		for (WebElement webElement : driveLink) {
+			Thread.sleep(5000);
 			webElement.click();
 			Thread.sleep(5000);
 			String mainWindowHandle = driver.getWindowHandle();
@@ -365,49 +368,18 @@ public class Test1 {
 						List<WebElement> markAsNoCritical = driver
 								.findElements(By.xpath("//button[@title='Mark as no critical']"));
 
-						if (!markAsNoCritical.isEmpty()) {
-							for (WebElement markAsNoElement : markAsNoCritical) {
-								int retryCount = 0;
-								boolean clicked = false;
-
-								while (!clicked && retryCount < 3) { // Retry up to 3 times if StaleElementReferenceException occurs
-									try {
-										wait.until(ExpectedConditions.elementToBeClickable(markAsNoElement)).click();
-										WebElement select2 = wait.until(ExpectedConditions
-												.visibilityOfElementLocated(
-														By.xpath("//select[@id='critical_reason_id']")));
-										Select sel = new Select(select2);
-										sel.selectByVisibleText("Incorrect Schedule");
-
-										driver.findElement(By.id("no_critical_note")).sendKeys("exx");
-										driver.findElement(
-												By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']"))
-												.click();
-										clicked = true; // Set to true if click is successful
-
-									} catch (StaleElementReferenceException e) {
-										// Handle stale element by refetching markAsNoCritical list
-										retryCount++;
-										System.out.println("Retrying due to stale element - Attempt " + retryCount);
-										markAsNoCritical = driver
-												.findElements(By.xpath("//button[@title='Mark as no critical']"));
-										if (retryCount >= markAsNoCritical.size())
-											break; // Avoid out of bounds
-										markAsNoElement = markAsNoCritical.get(retryCount);
-									}
-								}
-							}
-							// addedHour();
-							// regularHourAdded();
-
-						}
+						markAsNoCritical();
+						// regularHourAdded();
 
 					}
 
 				}
+
 			}
 		}
 	}
+
+	
 
 	public void addedHour() throws InterruptedException {
 
@@ -500,41 +472,296 @@ public class Test1 {
 		// 			By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='add']"));
 		// 	List<WebElement> updateButton = driver.findElements(
 		// 			By.xpath("//button[@class='custom_btn_sm add_time_schedule' and @data-type='update']"));
-			List<WebElement> markAsNoCritical = driver.findElements(By.xpath("//button[@title='Mark as no critical']"));
+		List<WebElement> markAsNoCritical = driver.findElements(By.xpath("//button[@title='Mark as no critical']"));
 
-			if (!markAsNoCritical.isEmpty()) {
-				for (WebElement markAsNoElement : markAsNoCritical) {
-					int retryCount = 0;
-					boolean clicked = false;
+		if (!markAsNoCritical.isEmpty()) {
+			for (WebElement markAsNoElement : markAsNoCritical) {
+				int retryCount = 0;
+				boolean clicked = false;
 
-					while (!clicked && retryCount < 3) { // Retry up to 3 times if StaleElementReferenceException occurs
-						try {
-							wait.until(ExpectedConditions.elementToBeClickable(markAsNoElement)).click();
-							WebElement select2 = wait.until(ExpectedConditions
-									.visibilityOfElementLocated(By.xpath("//select[@id='critical_reason_id']")));
-							Select sel = new Select(select2);
-							sel.selectByVisibleText("Incorrect Schedule");
+				while (!clicked && retryCount < 3) { // Retry up to 3 times if StaleElementReferenceException occurs
+					try {
+						wait.until(ExpectedConditions.elementToBeClickable(markAsNoElement)).click();
+						WebElement select2 = wait.until(ExpectedConditions
+								.visibilityOfElementLocated(By.xpath("//select[@id='critical_reason_id']")));
+						Select sel = new Select(select2);
+						sel.selectByVisibleText("Incorrect Schedule");
 
-							driver.findElement(By.id("no_critical_note")).sendKeys("exx");
-							driver.findElement(By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']"))
-									.click();
-							clicked = true; // Set to true if click is successful
+						driver.findElement(By.id("no_critical_note")).sendKeys("exx");
+						driver.findElement(By.xpath("//button[@class='custom_btn_sm mark_as_no_critical_btn']"))
+								.click();
+						clicked = true; // Set to true if click is successful
 
-						} catch (StaleElementReferenceException e) {
-							// Handle stale element by refetching markAsNoCritical list
-							retryCount++;
-							System.out.println("Retrying due to stale element - Attempt " + retryCount);
-							markAsNoCritical = driver.findElements(By.xpath("//button[@title='Mark as no critical']"));
-							if (retryCount >= markAsNoCritical.size())
-								break; // Avoid out of bounds
-							markAsNoElement = markAsNoCritical.get(retryCount);
-						}
+					} catch (StaleElementReferenceException e) {
+						// Handle stale element by refetching markAsNoCritical list
+						retryCount++;
+						System.out.println("Retrying due to stale element - Attempt " + retryCount);
+						markAsNoCritical = driver.findElements(By.xpath("//button[@title='Mark as no critical']"));
+						if (retryCount >= markAsNoCritical.size())
+							break; // Avoid out of bounds
+						markAsNoElement = markAsNoCritical.get(retryCount);
 					}
 				}
 			}
+		}
 		// } catch (Exception e) {
 		// 	System.out.println("An error occurred: " + e.getMessage());
 		// }
 
 	}
+
+	//-*************************************************************Check for Time card add hour*************************************************//
+
+	@FindBy(xpath = "//button[@title='Mark as no critical']")
+	private WebElement markAsNoCritical2;
+	@FindBy(xpath = "//button[@data-type='add']")
+	private WebElement addHour;
+	@FindBy(xpath = "//select[@id='critical_reason_id']")
+	private WebElement selectReson;
+	@FindBy(xpath = "//textarea[@id='no_critical_note']")
+	private WebElement notes;
+	@FindBy(xpath = "//button[@class='custom_btn_sm mark_as_no_critical_btn']")
+	private WebElement markIt;
+	@FindBy(xpath = "//select[@id='swal2-select']")
+	private WebElement selectTypeOfhour;
+	@FindBy(xpath = "//button[normalize-space()='OK']")
+	private WebElement hourConfirmOKButton;
+	@FindBy(xpath = "//select[@id='hours_earning_code']")
+	private WebElement selectEarningCode;
+	@FindBy(xpath = "//input[@id='total_hours']")
+	private WebElement inputHolidayHour;
+	@FindBy(xpath = "//button[@type='submit'][normalize-space()='Add Hour']")
+	private WebElement clickHolidayAddHourButton;
+	@FindBy(xpath = "//div[@id='accordionFlushExample']//div[@class='accordion-item']")
+	private List<WebElement> eachdayClick;
+
+	//-----------------------------Checkd for Timedashboard --------------------------------------//
+
+	@FindBy(xpath = "//a[text()='Time Dashboard']")
+	private WebElement timeDashboard;
+
+	@FindBy(xpath = "//h2[normalize-space()='Time Dashboard']")
+	private WebElement timedashoardText;
+
+	@FindBy(xpath = "//button[@class='custom_btn_sm approve_time_dashboard']")
+	private List<WebElement> approveButtons;
+
+	@FindBy(xpath = "//div[@id='swal2-html-container']")
+	private WebElement popupMessage;
+
+	@FindBy(xpath = "//button[@class='swal2-confirm swal2-styled swal2-default-outline']")
+	private WebElement approve;
+
+	@FindBy(xpath = "//button[normalize-space()='OK']")
+	private WebElement OkButton;
+
+	@FindBy(xpath = "//td[@class='sorting_1'] //a[@href]")
+	private List<WebElement> driverLinks;
+	@FindBy(xpath = "//div[@class='d-flex justify-content-end align-items-center mb-3']//button[@id='expand_btn']")
+	private WebElement expandButton;
+
+	@FindBy(xpath = "//button[@title='Mark as no critical']")
+	private List<WebElement> markAsNoCritical;
+	@FindBy(xpath = "//select[@id='critical_reason_id']")
+	private WebElement dropdwnText;
+	@FindBy(id = "no_critical_note")
+	private WebElement critcialtext;
+	@FindBy(xpath = "//button[@class='custom_btn_sm mark_as_no_critical_btn']")
+	private WebElement markItButton;
+
+	//-----------------------------------------------------Method create from Sahabaj in Timecard logic --------------------------------------//
+
+	public void expandDaySection(WebElement daySection) {
+
+		daySection.click();
+		wait.until(ExpectedConditions.visibilityOf(daySection));
+	}
+
+	public void performedConditioanlAction() {
+		try {
+			if (addHour.isDisplayed()) {
+				addHour.click();
+				getSelect(selectTypeOfhour).selectByIndex(2);
+				hourConfirmOKButton.click();
+				getSelect(selectReson).selectByIndex(2);
+				inputHolidayHour.sendKeys("8");
+				clickHolidayAddHourButton.click();
+
+			}
+		} catch (Exception e) {
+			System.out.println("add hour button is not visaible");
+		}
+		try {
+			if (markAsNoCritical2.isDisplayed()) {
+				markAsNoCritical2.click();
+				getSelect(selectReson).selectByIndex(2);
+				notes.sendKeys("wasim ");
+				markIt.click();
+
+			}
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+	}
+
+	public void interactEachday() {
+		for (WebElement webElement : eachdayClick) {
+			expandDaySection(webElement);
+			performedConditioanlAction();
+
+		}
+	}
+
+	public void waitForPageToRefresh() {
+		wait.until(ExpectedConditions.refreshed(
+				ExpectedConditions.presenceOfElementLocated(By.tagName("body"))));
+	}
+
+	public Select getSelect(WebElement dropdownElement) {
+		return new Select(dropdownElement);
+	}
+
+	//----------------------------------------------------Method for Timedashboard ---------------------------------//
+	public String verifyTimedashboardtext() {
+		return timedashoardText.getText();
+	}
+
+	public void clickTimedashboard()
+
+	{
+		timeDashboard.click();
+	}
+
+	public void clickDriverName() {
+		for (WebElement webElement : driverLinks) {
+			webElement.click();
+
+		}
+	}
+
+	public void clickApproveButton() throws InterruptedException {
+		for (WebElement approveButton : approveButtons) {
+			wait.until(ExpectedConditions.elementToBeClickable(approveButton)).click();
+			wait.until(ExpectedConditions.visibilityOf(popupMessage));
+			String messageText = popupMessage.getText();
+
+			if (messageText.contains("Please resolve those to continue."))
+
+			{
+				handleCritical();
+			} else if (messageText.contains("Non-Critical Exception")) {
+				handleCritical();
+
+			} else if (messageText.contains("The data has been updated successfully.")) {
+				sucessfull();
+			}
+		}
+
+	}
+
+	public void handleNonCritical() {
+		approve.click();
+		OkButton.click();
+	}
+
+	public void handleCritical() throws InterruptedException {
+		OkButton.click();
+
+		WebElement[] driveLinks = null;
+		WebElement[] markAsNoCritical = null;
+
+		for (WebElement webElement : driveLinks) {
+			webElement.click();
+			Thread.sleep(5000);
+			String mainWindowHandle = driver.getWindowHandle();
+			Set<String> allWindowHandles = driver.getWindowHandles();
+
+			for (String windowHandle : allWindowHandles) {
+				if (!windowHandle.equals(mainWindowHandle)) {
+					driver.switchTo().window(windowHandle);
+					expandButton.click();
+					for (WebElement markNocritical : markAsNoCritical) {
+						Thread.sleep(5000);
+						markNocritical.click();
+						Thread.sleep(5000);
+						Select sel = new Select(dropdwnText);
+						sel.selectByVisibleText("Incorrect Schedule");
+						critcialtext.sendKeys("exx");
+						markItButton.click();
+
+					}
+					driver.close();
+
+					driver.navigate().back();
+				}
+			}
+
+		}
+	}
+
+	public void sucessfull() {
+		OkButton.click();
+	}
+
+	public void switchToNWindow() {
+		String mainWindow = driver.getWindowHandle();
+
+		Set<String> allWindows = driver.getWindowHandles();
+		for (String window : allWindows) {
+			if (!window.equals(mainWindow)) {
+				driver.switchTo().window(window); // Switch to new window
+				break;
+			}
+		}
+
+	}
+
+	@Test
+	public void verifyTimedashboard() throws InterruptedException, AWTException {
+		Thread.sleep(5000);
+		JavascriptExecutor js = (JavascriptExecutor) driver;
+		// Thread.sleep(5000);
+		// js.executeScript("document.body.style.zoom = '0.7';");
+		Robot robot = new Robot();
+		Thread.sleep(5000);
+		robot.keyPress(KeyEvent.VK_CONTROL);
+		robot.keyPress(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyPress(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_SUBTRACT);
+		robot.keyRelease(KeyEvent.VK_CONTROL);
+		driver.findElement(By.xpath("//input[@id='exampleInputUsername']")).sendKeys(" Cunex Inc.");
+		driver.findElement(By.xpath("//input[@placeholder='Enter password']")).sendKeys("123456");
+
+		Thread.sleep(5000);
+
+		driver.findElement(By.xpath("//button[@class='btn full-btn']")).click();
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//a[@id='step-human-resources']")).click();
+		WebElement scrollableElement = driver
+				.findElement(By.xpath("//div[@class='dashbord-left-menu-wraper blue-bg']"));
+
+		js.executeScript("window.scrollBy(0,200)");
+		js.executeScript("window.scrollBy(0,200);", scrollableElement);
+		Thread.sleep(5000);
+		driver.findElement(By.xpath("//a[@id='arrow-time-dashboard']")).click();
+		Thread.sleep(5000);
+		WebElement dropdown = driver.findElement(By.xpath("//select[@id='filter_paygroup']"));
+		Select select = new Select(dropdown);
+		Thread.sleep(5000);
+		select.selectByVisibleText("Office");
+		Thread.sleep(5000);
+		js.executeScript("document.body.style.zoom = '0.8';");
+		for (WebElement webElement : driverLinks) {
+			webElement.click();
+			Thread.sleep(5000);
+			switchToNWindow();
+
+		}
+
+	}
+
 }

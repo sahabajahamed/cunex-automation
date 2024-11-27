@@ -12,13 +12,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class TimeDashboardPage extends BasePage{
 	private WebDriverWait wait;
+
+	private WebDriver driver;
+
 	
 	public TimeDashboardPage(WebDriver driver) {
 		super(driver);
 		
 		
 	}
-	@FindBy(xpath = "//a[@id='arrow-time-dashboard']")
+	@FindBy(xpath = "//a[@id='arrow-time-dashboard']") 
 	private WebElement timeDashboard;
 	
 	@FindBy(xpath = "//h2[normalize-space()='Time Dashboard']")
@@ -51,6 +54,11 @@ public class TimeDashboardPage extends BasePage{
 	private WebElement markItButton;
 	
 	
+	public void clickTimedashboard() throws InterruptedException
+	
+	{	Thread.sleep(3000);
+		timeDashboard.click();
+	}
 	 String messageText = popupMessage.getText();
 
 	
@@ -58,14 +66,18 @@ public class TimeDashboardPage extends BasePage{
 	{
 		return timedashoardText.getText();
 	}
-	public void clickTimedashboard()
-	{
-		timeDashboard.click();
-	}
+
+	
 
 	public void clickDriverName()
 	{
 		for (WebElement webElement : driverLinks) {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			webElement.click();
 			
 			
