@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -114,7 +113,7 @@ public class BaseTest {
 		return lastName;
 	}
 
-	public void switchToNWindow() {
+	public void switchToNWindow(String currentWindow) {
 		String mainWindow = driver.getWindowHandle();
 
 		Set<String> allWindows = driver.getWindowHandles();
@@ -125,5 +124,15 @@ public class BaseTest {
 			}
 		}
 
+	}
+
+	public String getParentWindowHandle(String mainHandle) {
+		Set<String> allWindows = driver.getWindowHandles(); // Get all window handles
+		for (String window : allWindows) {
+			if (!window.equals(mainHandle)) { // Exclude main window
+				return window;
+			}
+		}
+		return mainHandle;
 	}
 }

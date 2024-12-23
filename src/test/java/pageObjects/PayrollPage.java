@@ -19,7 +19,7 @@ public class PayrollPage extends BasePage {
     @FindBy(xpath = "//select[@id='entity_id']")
     private WebElement SelectEntity;
     @FindBy(xpath = "//a[normalize-space()='Begin']")
-    private WebElement clickBeginButton;
+    private WebElement clickBeginButton01;
     @FindBy(xpath = "//a[normalize-space()='Time Sheet']")
     private WebElement ClickTimeSheet;
 
@@ -47,6 +47,7 @@ public class PayrollPage extends BasePage {
 
     public void clickBeginButton()
     {
-        clickBeginButton.click();
+        clickBeginButton01.click();
     }
+
 }

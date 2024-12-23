@@ -38,22 +38,23 @@ public class PayrollTest extends BaseTest {
             payroll =new PayrollPage(driver);
             payroll.nevigateTopayroll();
             payroll.SelectEntity("Cunex Inc.");
+            Thread.sleep(4000);
             payroll.clickBeginButton();
-            switchToNWindow();
+            switchToNWindow(null);
+
 
             payroll.clickTimeSheet();
             timedashboardPage = new TimeDashboardPage(driver);
+            timedashboardPage.clickApproveButton();
+           
             Thread.sleep(4000);
             timedashboardPage.clickDriverName();
             Thread.sleep(4000);
-            switchToNWindow();
+            switchToNWindow(null);
+            timecard.performedConditioanlAction();
             
-            try {
-                Thread.sleep(4000);
-            } catch (InterruptedException e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            
+            
             
     }
     

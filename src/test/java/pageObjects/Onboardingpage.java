@@ -2,12 +2,9 @@ package pageObjects;
 
 import java.util.List;
 
-import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class Onboardingpage extends BasePage {
 
@@ -53,6 +50,7 @@ public class Onboardingpage extends BasePage {
     private WebElement selectEntity;
     @FindBy(xpath = "//button[@id='add_onboarder_btn']")
     private WebElement addButton;
+    
 
     
     
@@ -115,8 +113,18 @@ public class Onboardingpage extends BasePage {
         addButton.click();
     }
     
-      public void goToHiredTab() {
+    public void goToHiredTab() {
         hiredTab.click();
-     
+
     }
+    //write a method to get the title of the page   
+    public String getPageTitle() {
+        return driver.getTitle();
+    }
+    //method to get the list of the employee    
+    public List<WebElement> getListOfEmployee() {
+        return listOftheEmployee;
+    }
+    //method to get the list of the reject candidate    
+    
 }

@@ -72,13 +72,8 @@ public class TimeDashboardPage extends BasePage{
 	public void clickDriverName()
 	{
 		for (WebElement webElement : driverLinks) {
-			try {
-				Thread.sleep(2000);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			webElement.click();
+			
+			wait.until(ExpectedConditions.elementToBeClickable(webElement)).click();
 			
 			
 		}

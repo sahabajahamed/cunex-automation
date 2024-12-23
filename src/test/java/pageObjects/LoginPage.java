@@ -55,12 +55,17 @@ public class LoginPage extends BasePage{
     
     // Method to perform login
     public void loginPerform(String username, String password) 
-     { 
-    	usernameField.clear();
+    {
+        usernameField.clear();
         usernameField.sendKeys(username);
         passwordField.clear();
         passwordField.sendKeys(password);
         loginButton.click();
     }
     
+                                                                                                                                      
+    //write a method to get the title of the page
+    public String getPageTitle() {
+        return driver.getTitle();
+    }
 }
