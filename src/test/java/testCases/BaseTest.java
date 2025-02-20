@@ -45,7 +45,8 @@ public class BaseTest {
 			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
 
 			// Navigate to the login page
-			driver.get("https://staging.groundmetrx.com/");
+			//driver.get(ConfigReader.getProperty("baseURL"));
+			driver.get("https://staging.groundmetrx.com/company/login");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

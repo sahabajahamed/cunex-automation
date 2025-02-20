@@ -6,6 +6,7 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import pageObjects.LoginPage;
+import utlis.ConfigReader;
 
 public class LoginTest extends BaseTest{
 	private LoginPage loginpage;
@@ -13,10 +14,10 @@ public class LoginTest extends BaseTest{
 
 	
 	@Test(priority = 1)
-	public void validUsernamePassword() throws InterruptedException, AWTException
+	public void validUsernamePassword() throws InterruptedException
 	{
 		loginpage= new LoginPage(driver);
-		loginpage.loginPerform(" Cunex Inc.", "Thenewpasswordiscunex@362");
+		loginpage.loginPerform(ConfigReader.getProperty("username"), ConfigReader.getProperty("password"));
 		Assert.assertEquals(loginpage.SucessfullyMessage(), "Dashboard", "Login fail ");
 	}
 	
