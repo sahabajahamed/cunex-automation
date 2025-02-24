@@ -26,8 +26,7 @@ public class WorkOrder {
     WebDriverWait wait;
     WebDriver driver;
     Random random2 = new Random();
-   
-   
+
     @BeforeMethod
     public void setup() {
         try {
@@ -128,54 +127,51 @@ public class WorkOrder {
 
     @Test
     public void deleteWorkOrder() throws InterruptedException {
+
         driver.get("https://staging.groundmetrx.com/");
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@id='step-maintenance']"))).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@id='arrow-work-orders']"))).click();
 
-
         for (int i = 0; i < 150; i++) {
-            try{
+            try {
                 try {
-                  try{
-                Thread.sleep(1000);
-                // wait.until(ExpectedConditions.elementToBeClickable()).click();
-                WebElement complete = driver.findElement(By.linkText("Complete"));
-                complete.click();
-                            WebElement yesButton = driver.findElement(By.xpath("//button[normalize-space()='Yes']"));
-                            yesButton.click();
-                        }
-        
-                        catch (Exception e) {
-                            System.out.println("a");
-                        }
-        
-                 
-        
-                            WebElement selectElement =  wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='swal2-select']")));
-                            Select select = new Select(selectElement);
-                            select.selectByIndex(1);
-        
-                            WebElement okButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
-                            okButton.click();
-        
-                            WebElement finalOkButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
-                            finalOkButton.click();
-                    } catch (Exception e) {
-                            // WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='OK']")));
-                            // okButton.click();
-                            System.out.println("not found");
-                        } 
-              Thread.sleep(1000);
+                    try {
+                        Thread.sleep(1000);
+                        // wait.until(ExpectedConditions.elementToBeClickable()).click();
+                        WebElement complete = driver.findElement(By.linkText("Complete"));
+                        complete.click();
+                        WebElement yesButton = driver.findElement(By.xpath("//button[normalize-space()='Yes']"));
+                        yesButton.click();
+                    }
+
+                    catch (Exception e) {
+                        System.out.println("a");
+                    }
+
+                    WebElement selectElement = wait
+                            .until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='swal2-select']")));
+                    Select select = new Select(selectElement);
+                    select.selectByIndex(1);
+
                     WebElement okButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
-                            okButton.click();
-                        } catch (Exception e) {
-                    System.out.println("aa");
+                    okButton.click();
+
+                    WebElement finalOkButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+                    finalOkButton.click();
+                } catch (Exception e) {
+                    // WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='OK']")));
+                    // okButton.click();
+                    System.out.println("not found");
                 }
+                Thread.sleep(1000);
+                WebElement okButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+                okButton.click();
+            } catch (Exception e) {
+                System.out.println("aa");
+            }
         }
-
-
 
         // List<WebElement> allCompleteButton = wait
         //         .until(ExpectedConditions.visibilityOfAllElementsLocatedBy(By.linkText("Complete")));
@@ -220,8 +216,58 @@ public class WorkOrder {
 
         //     }
 
+    }
 
+    @Test
 
+    public void CompleteWorkOrderToPendingOrder() {
 
+        driver.get("https://staging.groundmetrx.com/");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@id='step-maintenance']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@id='arrow-work-orders']"))).click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@id='completed-tab']"))).click();
+        int num = 1500;
+        while(num!=0)
+        {
+            try {
+                try {
+                    try {
+                        Thread.sleep(1000);
+                        // wait.until(ExpectedConditions.elementToBeClickable()).click();
+                        WebElement pending = driver.findElement(By.linkText("Pending"));
+                        pending.click();
+                        WebElement WarningyesButton = driver.findElement(By.xpath("//button[normalize-space()='Yes']"));
+                        WarningyesButton.click();
+                    }
+
+                    catch (Exception e) {
+                        System.out.println("a");
+                    }
+
+                    WebElement selectElement = wait
+                            .until(ExpectedConditions.elementToBeClickable(By.xpath("//select[@id='swal2-select']")));
+                    Select select = new Select(selectElement);
+                    select.selectByIndex(1);
+
+                    WebElement okButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+                    okButton.click();
+
+                    WebElement finalOkButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+                    finalOkButton.click();
+                } catch (Exception e) {
+                    // WebElement okButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[normalize-space()='OK']")));
+                    // okButton.click();
+                    System.out.println("not found");
+                }
+                Thread.sleep(1000);
+                WebElement okButton = driver.findElement(By.xpath("//button[normalize-space()='OK']"));
+                okButton.click();
+            } catch (Exception e) {
+                System.out.println("aa");
+            }
+            num--;
+        }
     }
 }

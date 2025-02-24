@@ -120,8 +120,8 @@ public class TimeDashboardPage extends BasePage{
 			WebElement[] driveLinks = null;
 			WebElement[] markAsNoCritical = null;
 
-					for (WebElement webElement : driveLinks) {
-						webElement.click();
+					for (WebElement drivername : driveLinks) {
+						drivername.click();
 						Thread.sleep(5000);
 						String mainWindowHandle = driver.getWindowHandle();
 						Set<String> allWindowHandles = driver.getWindowHandles();

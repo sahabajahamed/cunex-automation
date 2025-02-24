@@ -40,17 +40,18 @@ public class PayrollTest extends BaseTest {
             payroll.SelectEntity("Cunex Inc.");
             Thread.sleep(4000);
             payroll.clickBeginButton();
-            switchToNWindow(null);
+        //    switchToNWindow();
 
 
             payroll.clickTimeSheet();
+            switchToNWindow();
             timedashboardPage = new TimeDashboardPage(driver);
             timedashboardPage.clickApproveButton();
            
             Thread.sleep(4000);
             timedashboardPage.clickDriverName();
             Thread.sleep(4000);
-            switchToNWindow(null);
+            switchToNWindow();
             timecard.performedConditioanlAction();
             
             

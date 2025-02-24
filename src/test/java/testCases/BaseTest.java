@@ -114,15 +114,20 @@ public class BaseTest {
 		return lastName;
 	}
 
-	public void switchToNWindow(String currentWindow) {
+	public void switchToNWindow() {
 		String mainWindow = driver.getWindowHandle();
 
 		Set<String> allWindows = driver.getWindowHandles();
 		for (String window : allWindows) {
-			if (!window.equals(mainWindow)) {
-				driver.switchTo().window(window); // Switch to new window
-				break;
+			try {
+				if (!window.equals(mainWindow)) {
+					driver.switchTo().window(window); // Switch to new window
+					break;
+				}
+			} catch (Exception e) {
+				System.out.println("q");
 			}
+			
 		}
 
 	}
