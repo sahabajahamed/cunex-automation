@@ -105,8 +105,12 @@ public void click_Complete_Button()
         wait.until(ExpectedConditions.elementToBeClickable(completeButton)).click();
     } catch (Exception e) {
         System.out.println("Skipping a Pending button due to error: " + e.getMessage());
-            }
     }
+}
+    
+
+
+
 
 
 
