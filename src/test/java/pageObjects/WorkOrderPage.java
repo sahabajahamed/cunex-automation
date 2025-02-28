@@ -46,6 +46,10 @@ public class WorkOrderPage extends BasePage{
     @FindBy(xpath = "//select[@id='swal2-select']")
     private WebElement selectElement;
 
+    @FindBy(xpath = "//a[normalize-space()='Service Schedules']")
+    private WebElement serviceSchedules;
+
+
     /*--------------------ACTION METHODS--------------------*/
 
     public void click_WorkOrder() {
@@ -106,6 +110,13 @@ public void click_Complete_Button()
     } catch (Exception e) {
         System.out.println("Skipping a Pending button due to error: " + e.getMessage());
     }
+}
+
+
+public ServiceSchedulePage clickServiceSchedule()
+{
+    wait.until(ExpectedConditions.elementToBeClickable(serviceSchedules)).click();
+    return new ServiceSchedulePage(driver);
 }
     
 
