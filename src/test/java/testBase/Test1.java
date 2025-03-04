@@ -201,8 +201,8 @@ public class Test1 {
 		driver.findElement(By.xpath("//a[@id='arrow-employees']")).click();
 		Thread.sleep(5000);
 		driver.findElement(By.xpath("//a[@id='reimbursements']")).click();
-		String mainWindow = driver.getWindowHandle();
 
+		String mainWindow = driver.getWindowHandle();
 		Set<String> allWindows = driver.getWindowHandles();
 		for (String window : allWindows) {
 			if (!window.equals(mainWindow)) {
@@ -569,6 +569,10 @@ public class Test1 {
 	@FindBy(xpath = "//button[@class='custom_btn_sm mark_as_no_critical_btn']")
 	private WebElement markItButton;
 
+	@FindBy(xpath = "//table[@id='time_dashboard_table']/tbody//button[.='Approve']")
+	private List<WebElement> driverName;
+	
+
 	//-----------------------------------------------------Method create from Sahabaj in Timecard logic --------------------------------------//
 
 	public void expandDaySection(WebElement daySection) {
@@ -752,15 +756,25 @@ public class Test1 {
 		WebElement dropdown = driver.findElement(By.xpath("//select[@id='filter_paygroup']"));
 		Select select = new Select(dropdown);
 		Thread.sleep(5000);
-		select.selectByVisibleText("Office");
+		select.selectByVisibleText("Linehaul");
 		Thread.sleep(5000);
 		js.executeScript("document.body.style.zoom = '0.8';");
-		for (WebElement webElement : driverLinks) {
-			webElement.click();
-			Thread.sleep(5000);
-			switchToNWindow();
+		System.out.println("pass ");
+		for (WebElement driverApprove : approveButtons)
+		{
+			try {
+				driverApprove.click();
+				System.out.println("Clicked Approve button");
+				OkButton.click();
 
+
+
+				
+			} catch (Exception e) {
+			}
+			
 		}
+		
 
 	}
 
