@@ -1,14 +1,8 @@
 package testCases;
 
-import org.openqa.selenium.StaleElementReferenceException;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.FindBy;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
-import pageObjects.BasePage;
 import pageObjects.DashboardPage;
 import pageObjects.EquipmentPage;
 import pageObjects.LoginPage;
@@ -17,7 +11,7 @@ public class Equipment extends BaseTest {
     @Test(priority = 1)
     public void addEquipmenttest() throws InterruptedException {
         LoginPage l1 = new LoginPage(driver);
-        l1.loginPerform("Dhl", "Dhl123456@");
+        l1.loginPerform("Cunex Inc.", "123456");
         DashboardPage d1 = new DashboardPage(driver);
         d1.clickAssets();
         EquipmentPage e1 = new EquipmentPage(driver);
@@ -40,7 +34,8 @@ public class Equipment extends BaseTest {
 
             createCount--;
         }
-
+        // cretae log info for the test
+        
     }
 
 

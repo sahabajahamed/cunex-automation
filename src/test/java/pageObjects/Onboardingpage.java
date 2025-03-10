@@ -1,6 +1,7 @@
 package pageObjects;
 
-import org.apache.commons.lang3.RandomStringUtils;
+import java.util.List;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -11,13 +12,26 @@ public class Onboardingpage extends BasePage {
         super(driver);
         //TODO Auto-generated constructor stub
     }
-    //locators
+    //--------------------------------------------------ONBOARDING SYSTEM PAGE
     @FindBy (xpath ="//a[@id='arrow-onboarding-system']")
     private WebElement Onboardingsystem;
     @FindBy(xpath="//h2[normalize-space()='Onboarding Process']")
     private WebElement Onboardingheader;
     @FindBy(xpath = "//a[normalize-space()='Add New Hire']")
     private WebElement addnewhire;
+    @FindBy(xpath = "//table[@id='pending_onboarders_list_table']//tbody//tr//td//a[@class='fw-semibold']")
+    private List<WebElement> listOftheEmployee;
+    @FindBy(xpath = "//table[@id='pending_onboarders_list_table']//tbody//tr//button[.='Reject Candidate']")
+    private List<WebElement> listOftheRejectCandidate;
+    @FindBy(xpath = "//button[normalize-space()='Yes']")
+    private WebElement yesConfirmMessage;
+    @FindBy(xpath = "//button[@class='swal2-deny swal2-styled']")
+    private WebElement noConfirMessage;
+    @FindBy(xpath = "//button[@id='hired_onboarders']")
+    private WebElement hiredTab;
+
+
+    //----------------------------------------------ADD NEW HIRE---------------------------------------------//
     @FindBy(xpath ="//h5[normalize-space()='Add New Hire']")
     private WebElement addnewhiretext;
     @FindBy(xpath = "//input[@id='first_name']")
@@ -36,6 +50,7 @@ public class Onboardingpage extends BasePage {
     private WebElement selectEntity;
     @FindBy(xpath = "//button[@id='add_onboarder_btn']")
     private WebElement addButton;
+    
 
     
     
@@ -45,7 +60,7 @@ public class Onboardingpage extends BasePage {
 
 
 
-
+//----------------------------------------------------Method ---------------------------------------------------------//
     public void onboarding()
     {
         Onboardingsystem.click();
@@ -95,6 +110,21 @@ public class Onboardingpage extends BasePage {
     
     public void addbutton()
     {
-       addButton.click();
+        addButton.click();
     }
+    
+    public void goToHiredTab() {
+        hiredTab.click();
+
+    }
+    //write a method to get the title of the page   
+    public String getPageTitle() {
+        return driver.getTitle();
+    }
+    //method to get the list of the employee    
+    public List<WebElement> getListOfEmployee() {
+        return listOftheEmployee;
+    }
+    //method to get the list of the reject candidate    
+    
 }
