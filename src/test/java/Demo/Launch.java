@@ -35,9 +35,9 @@ public class Launch {
         // driver.get("https://blue-pebble.weavers-web.com/admin/login");
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        options.setExperimentalOption("debuggerAddress", "localhost:42337");
+        options.setExperimentalOption("debuggerAddress", "localhost:35485");
         driver = new ChromeDriver(options);
-          driver.get("https://blue-pebble.weavers-web.com/admin/login/");
+           //driver.get("https://blue-pebble.weavers-web.com/admin/login/");
         driver.manage().window().maximize();
 
     }
