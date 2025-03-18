@@ -10,6 +10,9 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.aventstack.extentreports.util.Assert;
+
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -25,12 +28,13 @@ import java.io.File;
 public class Locators {
 
     public static WebDriverWait wait;
+    public static JavascriptExecutor js;
 
     public Locators(WebDriver driver) {
 
         PageFactory.initElements(driver, this);
         wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-        JavascriptExecutor js = (JavascriptExecutor) driver;
+        this.js = (JavascriptExecutor) driver;
 
     }
 
@@ -42,12 +46,14 @@ public class Locators {
 
     @FindBy(xpath = "//button[@type='submit']")
     private WebElement signin;
-    @FindBy(xpath = "//body/aside[@class='sidebar']/div[@class='sidebar-menu-area open']/ul[@id='sidebar-menu']/li[@class='dropdown']/a[1]")
+    @FindBy(xpath = "//span[text()='Users']")
     private WebElement users;
     @FindBy(xpath = "//a[normalize-space()='Users List']")
     private WebElement userslist;
     @FindBy(xpath = "//a[@class='btn btn-primary text-sm btn-sm px-12 py-12 radius-8 d-flex align-items-center gap-2']")
     private WebElement addnewuser;
+    @FindBy(xpath = "//a[normalize-space()='Add User']")
+    private WebElement adduser;
 
     String userimage = "src/test/java/Demo/image/Placeholder_Person.jpg";
     @FindBy(xpath = "//label[@for='imageUpload']")
@@ -133,7 +139,40 @@ public class Locators {
     @FindBy(xpath = "//button[contains(text(),'Save')]")
     private WebElement settingsSavechanges;
 
-    public JavascriptExecutor js;
+    // inline error message for add user section
+    @FindBy(xpath = "//p[text()='First name is required.']")
+    private WebElement Fname_msg;
+    @FindBy(xpath = "//p[text()='Last name is required.']")
+    private WebElement Lname_msg;
+    @FindBy(xpath = "//p[text()='Username is required.']")
+    private WebElement User_name_msg;
+    @FindBy(xpath = "//p[text()='Phone number is required.']")
+    private WebElement Ph_no_msg;
+    @FindBy(xpath = "//p[text()='Email is required.']")
+    private WebElement Email_msg;
+    @FindBy(xpath = "//p[text()='First name must contain only letters.']")
+    private WebElement Fname_msg_2;
+    @FindBy(xpath = "//p[text()='Last name must contain only letters.']")
+    private WebElement Lname_msg_2;
+    @FindBy(xpath = "//table[@id='userTable']/tbody/tr[1]/td[3]")
+    private WebElement usertable_email;
+    @FindBy(xpath = "//p[text()='Email is already registered.']")
+    private WebElement Email_msg2;
+    @FindBy(xpath = "//p[text()='Username must be between 3 and 20 characters.']")
+    private WebElement user_name_msg2;
+
+    @FindBy(xpath = "//p[text()='Username can only contain letters, numbers, underscores, and hyphens.']")
+    private WebElement user_name_msg3;
+    @FindBy(xpath = "//p[text()='This username is already taken.']")
+    private WebElement user_name_msg4;
+    @FindBy(xpath = "//p[text()='Invalid phone number format.']")
+    private WebElement phone_msg;
+
+    @FindBy(xpath = "//p[text()='Profile image must be a .png, .jpg, or .jpeg file.']")
+    private WebElement profile_msg;
+    // Editprofile username
+    @FindBy(xpath = "//input[@id='username']")
+    private WebElement editprofile_username;
 
     public void setusername(String user) {
         username.sendKeys(user);
@@ -165,7 +204,8 @@ public class Locators {
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='imageUpload']")));
         Robot rb = new Robot();
         rb.delay(200);
-        rb.mouseMove(600, 450);
+        rb.mouseMove(500, 450);
+        Thread.sleep(2000);
         rb.mousePress(InputEvent.BUTTON1_DOWN_MASK);
         rb.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
         Thread.sleep(2000);
@@ -177,35 +217,27 @@ public class Locators {
         rb.keyRelease(KeyEvent.VK_TAB);
         rb.keyPress(KeyEvent.VK_TAB);
         rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
+        String word = "Screenshot"; // Change this to the word you want to type
 
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_DOWN);
-        // rb.keyRelease(KeyEvent.VK_DOWN);
-        // rb.keyPress(KeyEvent.VK_ENTER);
-        // rb.keyRelease(KeyEvent.VK_ENTER);
-        // Thread.sleep(2000);
-        // rb.keyPress(KeyEvent.VK_ENTER);
-        // rb.keyRelease(KeyEvent.VK_ENTER);
-        // rb.keyPress(KeyEvent.VK_ENTER);
-        // rb.keyRelease(KeyEvent.VK_ENTER);
-        // Thread.sleep(2000);
-        // rb.keyPress(KeyEvent.VK_ENTER);
-        // rb.keyRelease(KeyEvent.VK_ENTER);
+        for (char c : word.toCharArray()) {
+            int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
+            if (KeyEvent.CHAR_UNDEFINED == keyCode) {
+                throw new RuntimeException("Key code not found for character '" + c + "'");
+            }
+
+            rb.keyPress(keyCode);
+            rb.keyRelease(keyCode);
+        }
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
 
     }
 
@@ -448,4 +480,404 @@ public class Locators {
     public void clicksettingsSavechanges() {
         settingsSavechanges.click();
     }
+
+    // add user e inline error msg validation
+    public void check_fname() {
+
+        String expectedError = "First name is required.";
+        String actualError = Fname_msg.getText();
+        ;
+
+        if (actualError.equals(expectedError)) {
+            System.out.println("Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void check_Lname() {
+        String expectedError = "Last name is required.";
+        String actualError = Lname_msg.getText();
+        ;
+
+        if (actualError.equals(expectedError)) {
+            System.out.println("Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void check_email() {
+        String expectedError = "Email is required.";
+        String actualError = Email_msg.getText();
+        ;
+
+        if (actualError.equals(expectedError)) {
+            System.out.println("Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void check_username() {
+        String expectedError = "Username is required.";
+        String actualError = User_name_msg.getText();
+        ;
+
+        if (actualError.equals(expectedError)) {
+            System.out.println("Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void check_phone() {
+        String expectedError = "Phone number is required.";
+        String actualError = Ph_no_msg.getText();
+        ;
+
+        if (actualError.equals(expectedError)) {
+            System.out.println("Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void check_fname_2() {
+        String expectedError = "First name must contain only letters.";
+        String actualError = Fname_msg_2.getText();
+        ;
+
+        if (actualError.equals(expectedError)) {
+            System.out.println("Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void check_Lname_2() {
+        String expectedError = "Last name must contain only letters.";
+        String actualError = Lname_msg_2.getText();
+
+        if (actualError.equals(expectedError)) {
+            System.out.println("Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void clear_firstname() {
+        firstname.clear();
+    }
+
+    public void clear_lastname() {
+        lastname.clear();
+    }
+
+    public void Email_tooltip() {
+
+        String tooltipMessage = (String) js.executeScript("return arguments[0].validationMessage;", email);
+
+        // ✅ Expected tooltip message
+        String expectedMessage = "Please include an '@' in the email address. 'fgfgdg' is missing an '@'.";
+
+        // ✅ Using if-else instead of Assert
+        if (tooltipMessage.equals(expectedMessage)) {
+            System.out.println("Test Passed: Tooltip message is correct.");
+        } else {
+            System.out.println("Test Failed: Expected - " + expectedMessage + ", but got - " + tooltipMessage);
+        }
+    }
+
+    public void clear_email() {
+        email.clear();
+    }
+
+    public void Email_tooltip2() {
+        String tooltipMessage = (String) js.executeScript("return arguments[0].validationMessage;", email);
+
+        // ✅ Expected tooltip message
+        String expectedMessage = "'.' is used at a wrong position in '.com'.";
+
+        // ✅ Using if-else instead of Assert
+        if (tooltipMessage.equals(expectedMessage)) {
+            System.out.println("Test Passed: 2nd Tooltip message is correct.");
+        } else {
+            System.out.println("Test Failed: Expected - " + expectedMessage + ", but got - " + tooltipMessage);
+        }
+    }
+
+    public String check_email2() {
+        String print_email = usertable_email.getText();
+        return print_email;
+    }
+
+    public void check_email3() {
+        String expectedError = "Email is already registered.";
+        String actualError = Email_msg2.getText();
+
+        if (actualError.equals(expectedError)) {
+            System.out.println(expectedError + "  Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void check_username2() {
+        String expectedError = "Username must be between 3 and 20 characters.";
+        String actualError = user_name_msg2.getText();
+
+        if (actualError.equals(expectedError)) {
+            System.out.println(expectedError + "  Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void clear_username() {
+        Username.clear();
+    }
+
+    public void check_username3() {
+
+        String expectedError = "Username can only contain letters, numbers, underscores, and hyphens.";
+        String actualError = user_name_msg3.getText();
+
+        if (actualError.equals(expectedError)) {
+            System.out.println(expectedError + "  Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public String get_editprofile_username() {
+        String username_value = editprofile_username.getAttribute("value");
+        return username_value;
+    }
+
+    public void check_username4() {
+        String expectedError = "This username is already taken.";
+        String actualError = user_name_msg4.getText();
+
+        if (actualError.equals(expectedError)) {
+            System.out.println(expectedError + "  Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void click_adduser() {
+        adduser.click();
+    }
+
+    public void check_phone_msg() {
+        String expectedError = "Invalid phone number format.";
+        String actualError = phone_msg.getText();
+
+        if (actualError.equals(expectedError)) {
+            System.out.println(expectedError + "  Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void clear_phoneno() {
+        phone.clear();
+    }
+
+    public void get_video_onprofile() throws AWTException, InterruptedException {
+        cameraicon.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='imageUpload']")));
+        Robot rb = new Robot();
+        rb.delay(200);
+        rb.mouseMove(500, 450);
+        Thread.sleep(2000);
+        rb.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        rb.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
+        String word = "Screencast"; // Change this to the word you want to type
+
+        for (char c : word.toCharArray()) {
+            int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
+            if (KeyEvent.CHAR_UNDEFINED == keyCode) {
+                throw new RuntimeException("Key code not found for character '" + c + "'");
+            }
+
+            rb.keyPress(keyCode);
+            rb.keyRelease(keyCode);
+        }
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+    public void check_profile_msg() {
+        String expectedError = "Profile image must be a .png, .jpg, or .jpeg file.";
+        String actualError = profile_msg.getText();
+
+        if (actualError.equals(expectedError)) {
+            System.out.println(expectedError + "  Test Passed: Correct inline error displayed.");
+        } else {
+            System.out.println("Test Failed: Expected '" + expectedError + "' but got '" + actualError + "'");
+        }
+    }
+
+    public void get_video_onprofile_png() throws AWTException, InterruptedException {
+        cameraicon.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='imageUpload']")));
+        Robot rb = new Robot();
+        rb.delay(200);
+        rb.mouseMove(500, 450);
+        Thread.sleep(2000);
+        rb.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        rb.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
+        String word = ".png"; // Change this to the word you want to type
+
+        for (char c : word.toCharArray()) {
+            int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
+            if (KeyEvent.CHAR_UNDEFINED == keyCode) {
+                throw new RuntimeException("Key code not found for character '" + c + "'");
+            }
+
+            rb.keyPress(keyCode);
+            rb.keyRelease(keyCode);
+        }
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+    public boolean usercreated_displayed() {
+
+        Boolean toast = uesrcreated.isDisplayed();
+        return toast;
+    }
+
+    public void get_video_onprofile_jpg() throws AWTException, InterruptedException {
+        cameraicon.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='imageUpload']")));
+        Robot rb = new Robot();
+        rb.delay(200);
+        rb.mouseMove(500, 450);
+        Thread.sleep(2000);
+        rb.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        rb.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+        Thread.sleep(2000);
+        String word = ".jpg"; // Change this to the word you want to type
+
+        for (char c : word.toCharArray()) {
+            int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
+            if (KeyEvent.CHAR_UNDEFINED == keyCode) {
+                throw new RuntimeException("Key code not found for character '" + c + "'");
+            }
+
+            rb.keyPress(keyCode);
+            rb.keyRelease(keyCode);
+        }
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+    }
+
+    public void get_video_onprofile_jpeg() throws AWTException, InterruptedException {
+        cameraicon.click();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//label[@for='imageUpload']")));
+        Robot rb = new Robot();
+        rb.delay(200);
+        rb.mouseMove(550, 550);
+        Thread.sleep(2000);
+        rb.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+        rb.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_TAB);
+        rb.keyRelease(KeyEvent.VK_TAB);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+
+        Thread.sleep(2000);
+        String word = ".jpeg"; // Change this to the word you want to type
+
+        for (char c : word.toCharArray()) {
+            int keyCode = KeyEvent.getExtendedKeyCodeForChar(c);
+            if (KeyEvent.CHAR_UNDEFINED == keyCode) {
+                throw new RuntimeException("Key code not found for character '" + c + "'");
+            }
+
+            rb.keyPress(keyCode);
+            rb.keyRelease(keyCode);
+        }
+        Thread.sleep(2000);
+        rb.keyPress(KeyEvent.VK_DOWN);
+        rb.keyRelease(KeyEvent.VK_DOWN);
+        rb.keyPress(KeyEvent.VK_ENTER);
+        rb.keyRelease(KeyEvent.VK_ENTER);
+    }
+
 }
